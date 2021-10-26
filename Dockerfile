@@ -9,7 +9,7 @@ FROM python:3.10-alpine3.14
 
 COPY dht.py /
 
-RUN echo -e "http://nl.alpinelinux.org/alpine/v3.14/main\nhttp://nl.alpinelinux.org/alpine/v3.14/community" > /etc/apk/repositories \
+RUN ; \
 #    apk add --no-cache --virtual .build \
 #        gcc libc-dev \
     ; \
