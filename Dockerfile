@@ -9,11 +9,7 @@ FROM python:3.10-alpine3.14
 
 COPY dht.py /
 
-RUN ; \
-#    apk add --no-cache --virtual .build \
-#        gcc libc-dev \
-    ; \
-    apk add --no-cache libgpiod py3-rpigpio \
+RUN apk add --no-cache libgpiod py3-rpigpio \
     ; \
     pip3 install --no-cache-dir adafruit-circuitpython-dht; \
 #    pip3 install --no-cache-dir rpi.gpio; \
