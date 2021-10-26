@@ -19,4 +19,5 @@ RUN apk add --no-cache libgpiod py3-rpigpio \
 #COPY --from=git /app /app
 #RUN pip install -r requirements.txt
 
-CMD ["python", "./dht.py"]
+#CMD ["python", "./dht.py"]
+CMD ["sleep", "4800"]
