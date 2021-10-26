@@ -9,8 +9,7 @@ FROM python:3.10-alpine3.14
 
 COPY dht.py /
 
-RUN apk add --no-cache \
-    apk add git libgpiod2 \
+RUN apk add --no-cache libgpiod2 \
     && rm -rf /var/cache/apk/* \
     ; \
     pip3 install adafruit-circuitpython-dht; \
