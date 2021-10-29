@@ -6,6 +6,7 @@
 # Ex: ./dht -g 4 -i 2
 
 import time
+import board
 import argparse
 
 from prometheus_client import Gauge, start_http_server
