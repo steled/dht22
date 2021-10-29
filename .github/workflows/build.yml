@@ -18,6 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Bump version and push tag
+        id: version
+        uses: anothrNick/github-tag-action@1.36.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          WITH_V: false
+          RELEASE_BRANCHES: master
+          INITIAL_VERSION: 0.0.1
+
       - name: Login to Dockerhub
         uses: docker/login-action@v1 
         with:
@@ -38,5 +48,5 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:debian-arm64
-            ${{ env.IMAGE_NAME }}:latest-arm64
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
