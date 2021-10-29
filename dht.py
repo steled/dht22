@@ -10,7 +10,7 @@ import argparse
 
 from prometheus_client import Gauge, start_http_server
 
-import Adafruit_DHT
+import adafruit_dht
 
 # Create a metric to track time spent and requests made.
 dht22_temperature_celsius = Gauge(
@@ -20,11 +20,12 @@ dht22_temperature_fahrenheit = Gauge(
 dht22_humidity = Gauge(
     'dht22_humidity', 'Humidity in percents provided by dht sensor')
 
-SENSOR = Adafruit_DHT.DHT22
+dhtDevice = adafruit_dht.DHT22(pin=getattr(board, args.gpio))
 
 
-def read_sensor(pin):
-    humidity, temperature = Adafruit_DHT.read_retry(SENSOR, pin)
+def read_sensor():
+    humidity = dhtDevice.humidity
+    temperature = dhtDevice.temperature
 
     if humidity is None or temperature is None:
         return
@@ -57,7 +58,7 @@ def main():
         start_http_server(args.port)
 
     while True:
-        read_sensor(pin=args.gpio)
+        read_sensor()
         time.sleep(args.interval)
 
 
