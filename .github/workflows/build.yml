@@ -26,7 +26,7 @@ jobs:
           DEFAULT_BUMP: patch
           WITH_V: false
           RELEASE_BRANCHES: master
-          INITIAL_VERSION: 0.0.1
+          INITIAL_VERSION: 0.1.0
 
       - name: Login to Dockerhub
         uses: docker/login-action@v1 
