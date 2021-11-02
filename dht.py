@@ -21,10 +21,23 @@ dht22_temperature_fahrenheit = Gauge(
 dht22_humidity = Gauge(
     'dht22_humidity', 'Humidity in percents provided by dht sensor')
 
-dhtDevice = adafruit_dht.DHT22(pin=getattr(board, args.gpio))
+def init_argparse() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-g", "--gpio", dest="gpio", type=int,
+                        required=True, help="GPIO pin number on which the sensor is plugged in")
+    parser.add_argument("-a", "--address", dest="addr", type=str, default=None,
+                        required=False, help="Address that will be exposed")
+    parser.add_argument("-i", "--interval", dest="interval", type=int,
+                        required=True, help="Interval sampling time, in seconds")
+    parser.add_argument("-p", "--port", dest="port", type=int, default=8001,
+                        required=False, help="Port that will be exposed")
+    return parser
 
+def init_dhtdevice() -> adafruit_dht.DHT22:
+    dhtDevice = adafruit_dht.DHT22(board.pin)
+    return dhtDevice
 
-def read_sensor():
+def read_sensor(dhtDevice):
     humidity = dhtDevice.humidity
     temperature = dhtDevice.temperature
 
@@ -41,17 +54,10 @@ def read_sensor():
         '{0:0.1f}'.format(temperature))
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-g", "--gpio", dest="gpio", type=int,
-                        required=True, help="GPIO pin number on which the sensor is plugged in")
-    parser.add_argument("-a", "--address", dest="addr", type=str, default=None,
-                        required=False, help="Address that will be exposed")
-    parser.add_argument("-i", "--interval", dest="interval", type=int,
-                        required=True, help="Interval sampling time, in seconds")
-    parser.add_argument("-p", "--port", dest="port", type=int, default=8001,
-                        required=False, help="Port that will be exposed")
-
+    parser = init_argparse()
     args = parser.parse_args()
+
+    dhtDevice = init_dhtdevice(pin=args.gpio)
 
     if args.addr is not None:
         start_http_server(args.port, args.addr)
@@ -59,7 +65,7 @@ def main():
         start_http_server(args.port)
 
     while True:
-        read_sensor()
+        read_sensor(dhtDevice)
         time.sleep(args.interval)
 
 
