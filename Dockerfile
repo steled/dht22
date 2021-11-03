@@ -10,5 +10,4 @@ RUN apk add --no-cache libgpiod \
     && apk del --no-network --purge build \
     && chmod +x /dht.py
 
-#ENTRYPOINT ["python", "./dht.py"]
-CMD [ "sleep", "4800" ]
+ENTRYPOINT ["python", "./dht.py"]
