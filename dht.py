@@ -29,7 +29,7 @@ def init_argparse() -> argparse.ArgumentParser:
                         required=False, help="Address that will be exposed")
     parser.add_argument("-i", "--interval", dest="interval", type=int,
                         required=True, help="Interval sampling time, in seconds")
-    parser.add_argument("-p", "--port", dest="port", type=int, default=8001,
+    parser.add_argument("-p", "--port", dest="port", type=int, default=9100,
                         required=False, help="Port that will be exposed")
     return parser
 
